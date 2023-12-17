@@ -1,4 +1,6 @@
-const { insertProductModel, updateProductModel, deleteProductModel, getProductModel, getAllProductModel, getAllVariantsByProductID } = require("../models/products.model");
+const { getCollectionModel } = require("../models/collections.model");
+const { getDiscountModel } = require("../models/discounts.model");
+const { insertProductModel, updateProductModel, deleteProductModel, getProductModel, getAllProductsModel, getAllVariantsByProductID } = require("../models/products.model");
 const { getAllImagesByVariantID } = require("../models/variants.model");
 
 
@@ -60,7 +62,7 @@ const getProduct = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
     try {
-        const [data] = await getAllProductModel();
+        const [data] = await getAllProductsModel();
         res.send({
             data
         });
@@ -98,6 +100,37 @@ const getFullProduct = async (req, res) => {
     }
 }
 
+const getAllFullProducts = async (req, res) => {
+    try {
+        const [allProducts] = await getAllProductsModel(); // Cambia el nombre según tu modelo
+        
+        const productDetails = await Promise.all(allProducts.map(async (product) => {
+            product.category = [product.category];
+            product.sale = product.sale ? true : false;
+            product.tags = product.tags.split(',');
+            const [collection] = await getCollectionModel(product.collections_id);
+            product.collections_id = collection[0].name;
+            const [discount] = await getDiscountModel(product.discounts_id);
+            product.discounts_id = discount[0].percent.toString();
+            const [variantsData] = await getAllVariantsByProductID(product.id);
+            product.variants = variantsData;
+            const [images] = await getAllImagesByVariantID(variantsData[0].id);
+            product.images = images;
+
+            return product
+        }));
+
+        res.send({
+            data: productDetails
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            msg: error.message,
+        });
+    }
+}
+
 
 module.exports = {
     addProduct,
@@ -106,5 +139,6 @@ module.exports = {
     getProduct,
     getAllProducts,
 
-    getFullProduct
+    getFullProduct,
+    getAllFullProducts
 };

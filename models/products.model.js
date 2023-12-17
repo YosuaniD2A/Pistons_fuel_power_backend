@@ -22,7 +22,7 @@ const getProductModel = (id) => {
     [id]);
 }
 
-const getAllProductModel = () => {
+const getAllProductsModel = () => {
     return db.query("SELECT * FROM products");
 }
 
@@ -38,7 +38,7 @@ module.exports = {
     updateProductModel,
     deleteProductModel,
     getProductModel,
-    getAllProductModel,
+    getAllProductsModel,
 
     getAllVariantsByProductID
 }
