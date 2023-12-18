@@ -105,13 +105,15 @@ const getAllFullProducts = async (req, res) => {
         const [allProducts] = await getAllProductsModel(); // Cambia el nombre según tu modelo
         
         const productDetails = await Promise.all(allProducts.map(async (product) => {
-            product.category = [product.category];
+            product.category = product.category;
             product.sale = product.sale ? true : false;
             product.tags = product.tags.split(',');
             const [collection] = await getCollectionModel(product.collections_id);
-            product.collections_id = collection[0].name;
+            product.collection = [collection[0].name];
+            delete product.collections_id;
             const [discount] = await getDiscountModel(product.discounts_id);
-            product.discounts_id = discount[0].percent.toString();
+            product.discount = discount[0].percent;
+            delete product.discounts_id;
             const [variantsData] = await getAllVariantsByProductID(product.id);
             product.variants = variantsData;
             const [images] = await getAllImagesByVariantID(variantsData[0].id);
