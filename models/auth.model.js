@@ -23,6 +23,14 @@ const getUserModel = (id) => {
     return db.query('SELECT * FROM users WHERE id = ?', [id])
 };
 
+const updateUserModel = (id, {name, lastname, email, permission, newpassword}) => {
+    if(password && password !== ''){
+        return db.query("UPDATE users SET name = ?, lastname = ?, email = ?, permission = ?, password = ? WHERE id = ?", [name, lastname, email, permission, newpassword, id])
+    }else{
+        return db.query("UPDATE users SET name = ?, lastname = ?, email = ?, permission = ? WHERE id = ?", [name, lastname, email, permission, id])
+    }
+};
+
 const deleteUserModel = (id) => {
     return db.query('DELETE FROM users WHERE id = ?', [id])
 };
@@ -33,5 +41,6 @@ module.exports = {
     getUserById,
     getAllUsersModel,
     deleteUserModel,
+    updateUserModel,
     getUserModel
 }
