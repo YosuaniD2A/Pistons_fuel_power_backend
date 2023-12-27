@@ -1,4 +1,4 @@
-const { registrarUser, getUserByEmail, getUserById, getAllUsersModel, deleteUserModel } = require("../models/auth.model");
+const { registrarUser, getUserByEmail, getUserById, getAllUsersModel, deleteUserModel, getUserModel } = require("../models/auth.model");
 const bcryptjs = require('bcryptjs')
 const { generateToken } = require("../util/tokenGenerator")
 
@@ -77,6 +77,21 @@ const getAllUsers = async (req, res) => {
   }
 }
 
+const getUser = async (req, res) => {
+  try {
+    const [data] = await getUserModel(req.params.id);
+
+    res.send({
+      data
+    })
+
+  } catch (error) {
+    res.status(500).json({
+      msg: error.message
+    });
+  }
+}
+
 const deleteUser = async (req, res) => {
   try {
     const [data] = await deleteUserModel(req.params.id);
@@ -97,5 +112,6 @@ module.exports = {
   register,
 
   getAllUsers,
+  getUser,
   deleteUser
 }

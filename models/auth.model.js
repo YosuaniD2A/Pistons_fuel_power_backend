@@ -19,6 +19,10 @@ const getAllUsersModel = () => {
     return db.query('SELECT * FROM users')
 };
 
+const getUserModel = (id) => {
+    return db.query('SELECT * FROM users WHERE id = ?', [id])
+};
+
 const deleteUserModel = (id) => {
     return db.query('DELETE FROM users WHERE id = ?', [id])
 };
@@ -28,5 +32,6 @@ module.exports = {
     getUserByEmail,
     getUserById,
     getAllUsersModel,
-    deleteUserModel
+    deleteUserModel,
+    getUserModel
 }
