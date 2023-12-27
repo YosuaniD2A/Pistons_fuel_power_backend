@@ -94,7 +94,7 @@ const getUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const [data] = await updateUserModel(req.params.id);
+    const [data] = await updateUserModel(req.params.id, req.body);
 
     res.send({
       data
