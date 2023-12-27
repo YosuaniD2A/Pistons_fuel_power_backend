@@ -24,7 +24,7 @@ const getUserModel = (id) => {
 };
 
 const updateUserModel = (id, {name, lastname, email, permission, newpassword}) => {
-    if(password && password !== ''){
+    if(newpassword !== ''){
         return db.query("UPDATE users SET name = ?, lastname = ?, email = ?, permission = ?, password = ? WHERE id = ?", [name, lastname, email, permission, newpassword, id])
     }else{
         return db.query("UPDATE users SET name = ?, lastname = ?, email = ?, permission = ? WHERE id = ?", [name, lastname, email, permission, id])
