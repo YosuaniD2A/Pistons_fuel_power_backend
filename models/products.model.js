@@ -7,9 +7,9 @@ const insertProductModel = ({title, description, type, price, category, sale, ta
     [title, description, type, price, category, sale, tags, collections_id, discounts_id]); 
 }
 
-const updateProductModel = (id, {title, description, type, price, category, sale, tags, collections_id, discounts_id}) => {
-    return db.query("UPDATE products SET title = ?, description = ?, type = ?, price = ?, category = ?, sale = ?, tags = ?, collections_id = ?, discounts_id = ? WHERE id = ?", 
-    [title, description, type, price, category, sale, tags, collections_id, discounts_id, id]);
+const updateProductModel = (id, {title, description, type, price, category, sale, tags, collections_id, discounts_id, updated_date}) => {
+    return db.query("UPDATE products SET title = ?, description = ?, type = ?, price = ?, category = ?, sale = ?, tags = ?, collections_id = ?, discounts_id = ?, updated_date = ? WHERE id = ?", 
+    [title, description, type, price, category, sale, tags, collections_id, discounts_id, updated_date, id]);
 }
 
 const deleteProductModel = (id) => {
