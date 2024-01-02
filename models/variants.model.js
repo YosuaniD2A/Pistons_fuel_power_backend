@@ -67,10 +67,17 @@ const getVariantsByImageId = (id) => {
     `, [id])
 }
 
+const getImagesByvariantIdModel = (id) => {
+    return db.query(`
+    SELECT vi.images_id FROM variants_has_images vi WHERE vi.variants_id = ?;`, [id])
+}
+
 const deleteRelationshipByVariantId = (id) => {
     return db.query("DELETE FROM variants_has_images WHERE variants_id = ? LIMIT 1",
         [id]);
 }
+
+
 
 module.exports = {
     insertVariantModel,
@@ -82,5 +89,6 @@ module.exports = {
     getAllProductbyVariantsModel,
     getProductbyVariantIdModel,
     getVariantsByImageId,
-    deleteRelationshipByVariantId
+    deleteRelationshipByVariantId,
+    getImagesByvariantIdModel
 }

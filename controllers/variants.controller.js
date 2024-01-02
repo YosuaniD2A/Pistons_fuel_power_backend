@@ -1,6 +1,6 @@
 const { deleteImageModel } = require("../models/images.model");
 const { getAllVariantsByProductID, deleteProductModel } = require("../models/products.model");
-const { insertVariantModel, deleteVariantModel, getVariantModel, getAllVariantModel, getAllProductbyVariantsModel, getProductbyVariantIdModel, getAllImagesByVariantID, getVariantsByImageId, deleteRelationshipByVariantId } = require("../models/variants.model");
+const { insertVariantModel, deleteVariantModel, getVariantModel, getAllVariantModel, getAllProductbyVariantsModel, getProductbyVariantIdModel, getAllImagesByVariantID, getVariantsByImageId, deleteRelationshipByVariantId, getImagesByvariantIdModel } = require("../models/variants.model");
 const { login } = require("./auth.controller");
 
 
@@ -111,11 +111,27 @@ const getAllProductbyVariants = async (req, res) => {
     }
 }
 
+const getImagesByVariantId = async (req, res) => {
+    try {
+        const [data] = await getImagesByvariantIdModel(req.params.id);
+
+        res.send({
+            data
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            msg: error.message,
+        });
+    }
+}
+
 module.exports = {
     addVariant,
     deleteVariant,
     getVariant,
     getAllVariants,
 
-    getAllProductbyVariants
+    getAllProductbyVariants,
+    getImagesByVariantId
 };

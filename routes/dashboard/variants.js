@@ -1,5 +1,5 @@
 const express = require("express");
-const { addVariant, deleteVariant, getVariant, getAllVariants, getAllProductbyVariants } = require("../../controllers/variants.controller");
+const { addVariant, deleteVariant, getVariant, getAllVariants, getAllProductbyVariants, getImagesByVariantId } = require("../../controllers/variants.controller");
 
 const router = express.Router();
 
@@ -16,5 +16,7 @@ router.get("/getAllVariants", getAllVariants);
 /*----------------------------------------------------------------------*/
 
 router.get("/getAllProductbyVariants", getAllProductbyVariants);
+
+router.get("/getImagesByVariantId/:id", getImagesByVariantId);
 
 module.exports = router;
