@@ -45,7 +45,7 @@ const getAllProductbyVariantsModel = () => {
     JOIN collections c ON p.collections_id = c.id
     JOIN variants_has_images vi ON vi.variants_id = v.id
     JOIN images i ON i.id = vi.images_id
-    GROUP BY v.id, p.id, p.title, p.sale, p.description, c.name, p.price, p.type, v.size, v.color, v.sku;
+    GROUP BY v.id, p.id, p.title, p.description, p.sale, c.name, p.price, p.type, v.size, v.color, v.sku;
     `)
 }
 
