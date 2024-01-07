@@ -40,6 +40,7 @@ app.use('/api/dashboard/gallery', require('./routes/dashboard/gallery'));
 // Shop
 app.use('/api/shop/products', require('./routes/shop/products'));
 app.use('/api/shop/collections', require('./routes/shop/collections'));
+app.use('/api/shop/gallery', require('./routes/shop/gallery'));
 
 
 // Errors handlers ------------------------------------------------------------------------
