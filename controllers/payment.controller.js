@@ -5,23 +5,27 @@ const stripe = new Stripe(process.env.STRIPE_SK)
 
 const createSession = async (req, res) => {
     try {
-        const params = req.body.orderData;
-        console.log(params);
-        
-        const session = await stripe.checkout.sessions.create({
-            line_items: [
-                {
-                    price_data: {
-                        product_data: {
-                            name: 'T-shirt',
-                            description: 'Muscle car ',
-                        },
-                        currency: 'usd',
-                        unit_amount: 2499
+        const orderData = req.body;
+        let productsList = [];
+
+        for (let i = 0; i < orderData.products.length; i++) {
+            const element = {
+                price_data: {
+                    product_data: {
+                        name: orderData.products[i].title,
+                        description: orderData.products[i].sku,
                     },
-                    quantity: 1
-                }
-            ],
+                    currency: 'usd',
+                    unit_amount: orderData.products[i].price * 100,
+                },
+                quantity: orderData.products[i].quantity
+            };
+
+            productsList.push(element);
+        }
+
+        const session = await stripe.checkout.sessions.create({
+            line_items: productsList,
             mode: 'payment',
             success_url: `http://localhost:65024/shop/checkout/success/{CHECKOUT_SESSION_ID}`,
             cancel_url: 'http://localhost:65024/shop/cart',
