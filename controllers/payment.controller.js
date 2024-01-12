@@ -34,6 +34,19 @@ const createSession = async (req, res) => {
               shipping_address_collection: {
                 allowed_countries: ["US"],
               },
+            payment_intent_data:{
+                shipping:{
+                    address: {
+                        line1: orderData.shippingDetails.address,
+                        city: orderData.shippingDetails.town,
+                        country: orderData.shippingDetails.country,
+                        state: orderData.shippingDetails.state,
+                        postal_code: orderData.shippingDetails.postalcode
+                    } ,
+                    name: orderData.shippingDetails.firstname +' '+orderData.shippingDetails.lastname,
+                    phone: orderData.shippingDetails.phone
+                }
+            },
             success_url: `http://localhost:65024/shop/checkout/success/{CHECKOUT_SESSION_ID}`,
             cancel_url: 'http://localhost:65024/shop/cart',
         });
