@@ -27,6 +27,13 @@ const createSession = async (req, res) => {
         const session = await stripe.checkout.sessions.create({
             line_items: productsList,
             mode: 'payment',
+            payment_method_types: ["card"],
+            phone_number_collection: {
+                enabled: true,
+              },
+              shipping_address_collection: {
+                allowed_countries: ["US"],
+              },
             success_url: `http://localhost:65024/shop/checkout/success/{CHECKOUT_SESSION_ID}`,
             cancel_url: 'http://localhost:65024/shop/cart',
         });
