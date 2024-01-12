@@ -31,9 +31,6 @@ const createSession = async (req, res) => {
             phone_number_collection: {
                 enabled: true,
               },
-              shipping_address_collection: {
-                allowed_countries: ["US"],
-              },
             payment_intent_data:{
                 shipping:{
                     address: {
