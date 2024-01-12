@@ -5,12 +5,14 @@ const stripe = new Stripe(process.env.STRIPE_SK)
 
 const createSession = async (req, res) => {
     try {
+        const params = req.body.orderData;
+        console.log(params);
         
-       const session = await stripe.checkout.sessions.create({
+        const session = await stripe.checkout.sessions.create({
             line_items: [
                 {
-                    price_data:{
-                        product_data:{
+                    price_data: {
+                        product_data: {
                             name: 'T-shirt',
                             description: 'Muscle car ',
                         },
