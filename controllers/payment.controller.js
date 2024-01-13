@@ -45,8 +45,8 @@ const createSession = async (req, res) => {
                     phone: orderData.shippingDetails.phone
                 }
             },
-            success_url: `http://localhost:65024/shop/checkout/success/{CHECKOUT_SESSION_ID}`,
-            cancel_url: 'http://localhost:65024/shop/cart',
+            success_url: `${process.env.URL_ECOMMERCE}shop/checkout/success/{CHECKOUT_SESSION_ID}`,
+            cancel_url: `${process.env.URL_ECOMMERCE}shop/cart`,
         });
 
         return res.json(session);
@@ -61,7 +61,6 @@ const createSession = async (req, res) => {
 const retrieveSession = async (req, res) => {
     try {
         const retrieve = await stripe.checkout.sessions.retrieve(req.params.id);
-        // const customer = await stripe.customers.retrieve(retrieve.customer);
 
         return res.json(retrieve);
 
