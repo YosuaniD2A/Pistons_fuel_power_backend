@@ -45,7 +45,8 @@ const createSession = async (req, res) => {
                     phone: orderData.shippingDetails.phone
                 }
             },
-            success_url: `${process.env.URL_ECOMMERCE}shop/checkout/success/{CHECKOUT_SESSION_ID}`,
+            // success_url: `${process.env.URL_ECOMMERCE}shop/checkout/success/{CHECKOUT_SESSION_ID}`,
+            success_url: `${process.env.URL_ECOMMERCE_LOCAL}shop/checkout/success/{CHECKOUT_SESSION_ID}`,
             cancel_url: `${process.env.URL_ECOMMERCE}shop/cart`,
         });
 
