@@ -8,6 +8,7 @@ const createOrderModel = (data) => {
         (
             site_name,
 	        site_order_id,
+            order_id,
 	        buyer,
 	        phone,
 	        sku,
@@ -28,8 +29,8 @@ const createOrderModel = (data) => {
 	        service_code,
 	        payment_id,
 	        payment_date) VALUES 
-            (?,?,?,?,?,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())`,
-            [data.site_name, data.site_order_id, data.buyer, data.phone, data.sku, data.order_total, data.proportional, 
+            (?,?,?,?,?,?,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())`,
+            [data.site_name, data.site_order_id, data.order_id, data.buyer, data.phone, data.sku, data.order_total, data.proportional, 
             data.quantity, data.price, data.title, data.shipping_status, data.street_1, data.shipping_city, data.shipping_postal_code, 
             data.shipping_state_province, data.shipping_country, data.tracking_number, data.carrier, data.service_code, 
             data.payment_id]);
