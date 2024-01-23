@@ -40,8 +40,16 @@ const getOrderModel = (id) => {
     [id]);
 }
 
+const updateOrderModel = (data, id) => {
+    const fieldsToUpdate = Object.keys(data).map(key => `${key} = ?`).join(', ');
+
+    return db.query(`UPDATE tu_tabla SET ${fieldsToUpdate} WHERE id = ?`, 
+    [...Object.values(data), id]);
+}
+
 
 module.exports = {
     createOrderModel,
-    getOrderModel
+    getOrderModel,
+    updateOrderModel
 }
