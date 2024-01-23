@@ -1,4 +1,4 @@
-const { createOrderModel, getOrderModel } = require("../models/orders.model");
+const { createOrderModel, getOrderModel, updateOrderModel } = require("../models/orders.model");
 
 const createOrder = async (req, res) => {
     try {
@@ -30,7 +30,10 @@ const getOrderByID = async (req, res) => {
 
 const updateOrder = async (req, res) => {
     try {
-        
+        const [data] = await updateOrderModel(req.body, req.params.id);
+        res.send({
+            data
+        });
 
     } catch (error) {
         res.status(500).json({
