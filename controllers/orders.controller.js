@@ -30,7 +30,7 @@ const getOrderByID = async (req, res) => {
 
 const getByOrderId = async (req, res) => {
     try {
-        const [data] = await getByOrderIdModel(req.body);
+        const [data] = await getByOrderIdModel(req.params.orderId);
         res.send({
             data
         });

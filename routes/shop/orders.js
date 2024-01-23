@@ -10,7 +10,7 @@ router.post("/createOrder", createOrder);
 
 router.get("/getOrder/:id", getOrderByID);
 
-router.get("/getByOrderId/", getByOrderId);
+router.get("/getByOrderId/:orderId", getByOrderId);
 
 // router.get("/getOrders", getAllOrders);
 
