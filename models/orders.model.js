@@ -40,6 +40,11 @@ const getOrderModel = (id) => {
     [id]);
 }
 
+const getByOrderIdModel = (orderId) => {
+    return db.query("SELECT * FROM orders WHERE site_order_id = ?", 
+    [orderId]);
+}
+
 const updateOrderModel = (data, id) => {
     const fieldsToUpdate = Object.keys(data).map(key => `${key} = ?`).join(', ');
 
@@ -51,5 +56,6 @@ const updateOrderModel = (data, id) => {
 module.exports = {
     createOrderModel,
     getOrderModel,
-    updateOrderModel
+    updateOrderModel,
+    getByOrderIdModel
 }

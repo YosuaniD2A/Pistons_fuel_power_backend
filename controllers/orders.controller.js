@@ -28,6 +28,20 @@ const getOrderByID = async (req, res) => {
     }
 }
 
+const getByOrderId = async (req, res) => {
+    try {
+        const [data] = await getByOrderIdModel(req.body);
+        res.send({
+            data
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            msg: error.message,
+        });
+    }
+}
+
 const updateOrder = async (req, res) => {
     try {
         const [data] = await updateOrderModel(req.body, req.params.id);
@@ -56,6 +70,7 @@ module.exports = {
     createOrder,
     getOrderByID,
     updateOrder,
+    getByOrderId,
 
     getAllOrders
 };
