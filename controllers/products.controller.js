@@ -122,8 +122,6 @@ const getAllFullProducts = async (req, res) => {
             return product
         }));
 
-        res.cookie('cookie-sameSite', 'value_Gyh732flJ1', { sameSite: 'None', secure: true });
-
         res.send({
             data: productDetails
         });
