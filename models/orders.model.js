@@ -41,8 +41,13 @@ const getOrderModel = (id) => {
     [id]);
 }
 
-const getByOrderIdModel = (orderId) => {
+const getBySiteOrderIdModel = (site_order_id) => {
     return db.query("SELECT * FROM orders WHERE site_order_id = ?", 
+    [site_order_id]);
+}
+
+const getByOrderIdModel = (orderId) => {
+    return db.query("SELECT * FROM orders WHERE order_id = ?", 
     [orderId]);
 }
 
@@ -58,5 +63,6 @@ module.exports = {
     createOrderModel,
     getOrderModel,
     updateOrderModel,
+    getBySiteOrderIdModel,
     getByOrderIdModel
 }

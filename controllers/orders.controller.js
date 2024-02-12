@@ -1,4 +1,4 @@
-const { createOrderModel, getOrderModel, updateOrderModel, getByOrderIdModel } = require("../models/orders.model");
+const { createOrderModel, getOrderModel, updateOrderModel, getBySiteOrderIdModel, getByOrderIdModel } = require("../models/orders.model");
 
 const createOrder = async (req, res) => {
     try {
@@ -17,6 +17,20 @@ const createOrder = async (req, res) => {
 const getOrderByID = async (req, res) => {
     try {
         const [data] = await getOrderModel(req.params.id);
+        res.send({
+            data
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            msg: error.message,
+        });
+    }
+}
+
+const getBySiteOrderId = async (req, res) => {
+    try {
+        const [data] = await getBySiteOrderIdModel(req.params.site_order_id);
         res.send({
             data
         });
@@ -70,6 +84,7 @@ module.exports = {
     createOrder,
     getOrderByID,
     updateOrder,
+    getBySiteOrderId,
     getByOrderId,
 
     getAllOrders
