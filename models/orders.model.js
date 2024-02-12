@@ -58,11 +58,16 @@ const updateOrderModel = (data, id) => {
     [...Object.values(data), id]);
 }
 
+const getAllOrderIDModel = (orderId) => {
+    return db.query("SELECT order_id FROM orders GROUP BY order_id", 
+    [orderId]);
+}
 
 module.exports = {
     createOrderModel,
     getOrderModel,
     updateOrderModel,
     getBySiteOrderIdModel,
-    getByOrderIdModel
+    getByOrderIdModel,
+    getAllOrderIDModel
 }
