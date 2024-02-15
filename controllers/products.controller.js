@@ -102,7 +102,7 @@ const getFullProduct = async (req, res) => {
 
 const getAllFullProducts = async (req, res) => {
     try {
-        const [allProducts] = await getAllProductsModel(); // Cambia el nombre según tu modelo
+        const [allProducts] = await getAllProductsModel();
         
         const productDetails = await Promise.all(allProducts.map(async (product) => {
             product.category = product.category;
@@ -116,7 +116,7 @@ const getAllFullProducts = async (req, res) => {
             delete product.discounts_id;
             const [variantsData] = await getAllVariantsByProductID(product.id);
             product.variants = variantsData;
-            const [images] = await getAllImagesByVariantID(variantsData[0].id);
+            const [images] = await getAllImagesByVariantID(variantsData[0]?.id);
             product.images = images;
 
             return product
