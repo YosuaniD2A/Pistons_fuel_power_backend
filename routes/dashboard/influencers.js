@@ -1,5 +1,5 @@
 const express = require("express");
-const { register, getAllInfluencers, getInfluencer, updateInfluencer, deleteInfluencer, updateInfluencerStatus, getAllCodes, changeInfluencerStatus } = require("../../controllers/influencers.controller");
+const { register, getAllInfluencers, getInfluencer, updateInfluencer, deleteInfluencer, updateInfluencerStatus, getAllCodes, changeInfluencerStatus, changeInfluencerNotify } = require("../../controllers/influencers.controller");
 
 const router = express.Router();
 
@@ -17,6 +17,8 @@ router.delete("/deleteInfluencer/:id", deleteInfluencer)
 //------------------------------------------------------------
 
 router.get("/changeInfluencerStatus/:id", changeInfluencerStatus)
+
+router.get("/changeInfluencerNotify/:id", changeInfluencerNotify)
 
 router.get("/getAllCodes", getAllCodes)
 

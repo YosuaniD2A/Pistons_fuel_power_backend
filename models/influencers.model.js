@@ -48,6 +48,16 @@ const changeInfluencerStatusModel = (id) => {
         WHERE id = ?`,[id])
 }
 
+const changeInfluencerNotifyModel = (id) => {
+    return db.query(
+        `UPDATE influencers
+        SET notify = CASE 
+                    WHEN notify = 'notify' THEN 'notified'
+                    WHEN notify = 'notified' THEN 'notify'
+                 END
+        WHERE id = ?`,[id])
+}
+
 const deleteInfluencerModel = (id) => {
     return db.query('DELETE FROM influencers WHERE id = ?', [id])
 };
@@ -61,5 +71,6 @@ module.exports = {
     getAllCodesModel,
     deleteInfluencerModel,
     updateInfluencerModel,
-    changeInfluencerStatusModel
+    changeInfluencerStatusModel,
+    changeInfluencerNotifyModel
 }
