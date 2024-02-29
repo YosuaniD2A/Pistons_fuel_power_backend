@@ -47,11 +47,11 @@ const getInfluencer = async (req, res) => {
     let data;
 
     if (isValidId(req.params.value)) {
-      data = await getInfluencerById(req.params.value);
+      [data] = await getInfluencerById(req.params.value);
     } else if (isValidCode(req.params.value)) {
-      data = await getInfluencerByCode(req.params.value);
+      [data] = await getInfluencerByCode(req.params.value);
     } else if (isValidEmail(req.params.value)) {
-      data = await getInfluencerByEmail(req.params.value);
+      [data] = await getInfluencerByEmail(req.params.value);
     } else {
       return res.status(400).json({ msg: 'Invalid identifier' });
     }
