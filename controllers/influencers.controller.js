@@ -1,12 +1,14 @@
 const bcryptjs = require('bcryptjs')
 const { getAllInfluencersModel, registrarInfluencer, getInfluencerById, getInfluencerByEmail, getInfluencerByCode, updateInfluencerModel, changeInfluencerStatusModel, getAllCodesModel, deleteInfluencerModel } = require('../models/influencers.model');
 const { isValidId, isValidCode, isValidEmail } = require('../validations/validations');
+const { generatorCode } = require('../util/codeGenerator');
 
 
 const register = async (req, res) => {
   try {
     // Encripta el password que manda el usuario 
     req.body.password = bcryptjs.hashSync(req.body.password, 10);
+    req.body.discount_code = await generatorCode();
 
     // Registra sus datos en la BD y luego se obtienen el usuario a partir del id que se le asigna
     const [data] = await registrarInfluencer(req.body);
