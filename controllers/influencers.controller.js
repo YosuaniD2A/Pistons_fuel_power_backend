@@ -107,7 +107,6 @@ const updateInfluencer = async (req, res) => {
 
 const changeInfluencerStatus = async (req, res) => {
     try {
-      
       const [data] = await changeInfluencerStatusModel(req.params.id);
   
       res.send({

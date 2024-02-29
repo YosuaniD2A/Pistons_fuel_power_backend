@@ -16,7 +16,7 @@ router.delete("/deleteInfluencer/:id", deleteInfluencer)
 
 //------------------------------------------------------------
 
-router.put("/changeInfluencerStatus/:id", changeInfluencerStatus)
+router.get("/changeInfluencerStatus/:id", changeInfluencerStatus)
 
 router.get("/getAllCodes", getAllCodes)
 
