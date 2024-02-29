@@ -38,6 +38,7 @@ app.use('/api/dashboard/variants', require('./routes/dashboard/variants'));
 app.use('/api/dashboard/images', require('./routes/dashboard/images'));
 app.use('/api/dashboard/discounts', require('./routes/dashboard/discounts'));
 app.use('/api/dashboard/gallery', require('./routes/dashboard/gallery'));
+app.use('/api/dashboard/influencers', require('./routes/dashboard/influencers'));
 // Shop
 app.use('/api/shop/products', require('./routes/shop/products'));
 app.use('/api/shop/collections', require('./routes/shop/collections'));
