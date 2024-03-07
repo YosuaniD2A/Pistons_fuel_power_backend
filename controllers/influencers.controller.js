@@ -211,10 +211,10 @@ const getAllOrdersWithMyCode = async (req, res) => {
 
 const getCodeDescount = async (req, res) => {
     try {
-        const [descount] = await getCodeDescountModel(req.params.code);
+        const [discount] = await getCodeDescountModel(req.params.code);
 
         res.send({
-            descount
+            discount
         })
 
     } catch (error) {
