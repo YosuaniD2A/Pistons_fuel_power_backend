@@ -24,6 +24,20 @@ const createSession = async (req, res) => {
             productsList.push(element);
         }
 
+        if(orderData.discount.discount_amount !== 0){
+            productsList.push({
+                price_data: {
+                    product_data: {
+                        name: "Discount",
+                        description: `Promotional code: ${orderData.discount}`,
+                    },
+                    currency: 'usd',
+                    unit_amount: orderData.discount.discount_amount * 100,
+                },
+                quantity: 1
+            });
+        }
+
         const session = await stripe.checkout.sessions.create({
             line_items: productsList,
             mode: 'payment',
