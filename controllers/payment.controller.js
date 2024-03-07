@@ -32,7 +32,7 @@ const createSession = async (req, res) => {
                         description: `Promotional code: ${orderData.discount}`,
                     },
                     currency: 'usd',
-                    unit_amount: orderData.discount.discount_amount * 100,
+                    unit_amount: (Math.round(orderData.discount.discount_amount * 100) / 100) * 100,
                 },
                 quantity: 1
             });
