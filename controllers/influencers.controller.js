@@ -1,8 +1,48 @@
 const bcryptjs = require('bcryptjs')
-const { getAllInfluencersModel, registrarInfluencer, getInfluencerById, getInfluencerByEmail, getInfluencerByCode, updateInfluencerModel, changeInfluencerStatusModel, getAllCodesModel, deleteInfluencerModel, changeInfluencerNotifyModel } = require('../models/influencers.model');
+const { getAllInfluencersModel, registrarInfluencer, getInfluencerById, getInfluencerByEmail, getInfluencerByCode, updateInfluencerModel, changeInfluencerStatusModel, getAllCodesModel, deleteInfluencerModel, changeInfluencerNotifyModel, getCodeDescountModel } = require('../models/influencers.model');
 const { isValidId, isValidCode, isValidEmail } = require('../validations/validations');
 const { generatorCode } = require('../util/codeGenerator');
+const { generateTokenInfluencer } = require('../util/tokenGenerator');
+const { getByPromotionalCodeModel } = require('../models/orders.model');
 
+const login = async (req, res) => {
+    const { data, password } = req.body
+    try {
+      // verificar si el email existe
+      let [influencer] = await getInfluencerByEmail(data)
+  
+      if (!influencer[0]) {
+        // 2da verificacion, ahora por el code
+        [influencer] = await getInfluencerByCode(data);
+
+        if (!influencer[0]) {
+            return res.status(404).json({
+                msg: 'Email/Code are not correct'
+              });   
+        }
+      }
+  
+      // verificar la contraseña
+      const validPassword = bcryptjs.compareSync(password, influencer[0].password);
+      if (!validPassword) {
+        return res.status(404).json({
+          msg: 'The password is not correct'
+        });
+      }
+  
+      delete influencer[0].password;
+  
+      // Muestra mensaje de BIENVENIDA y Genera el Token si todo va bien
+      res.status(200).json({
+        msg: `Bienvenido/a ${influencer[0].fullname}`,
+        token: generateTokenInfluencer(influencer[0]),
+        influencer: influencer[0]
+      })
+    } catch (error) {
+      res.status(500).json({ msg: error.message });
+    }
+  
+  }
 
 const register = async (req, res) => {
     try {
@@ -152,7 +192,41 @@ const deleteInfluencer = async (req, res) => {
     }
 }
 
+//------------------------------------------------------------------------------------------------------------------------
+
+const getAllOrdersWithMyCode = async (req, res) => {
+    try {
+        const [orders] = await getByPromotionalCodeModel(req.params.code);
+
+        res.send({
+            orders
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            msg: error.message
+        });
+    }
+}
+
+const getCodeDescount = async (req, res) => {
+    try {
+        const [descount] = await getCodeDescountModel(req.params.code);
+
+        res.send({
+            descount
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            msg: error.message
+        });
+    }
+}
+
+
 module.exports = {
+    login,
     register,
     getAllInfluencers,
     getInfluencer,
@@ -160,5 +234,8 @@ module.exports = {
     updateInfluencer,
     changeInfluencerStatus,
     changeInfluencerNotify,
-    deleteInfluencer
+    deleteInfluencer,
+
+    getAllOrdersWithMyCode,
+    getCodeDescount
 }

@@ -11,6 +11,17 @@ const generateToken = (user) => {
     return jwt.sign(payload, process.env.JWT_SECRET);
 }
 
+const generateTokenInfluencer = (user) => {
+    const payload = {
+        user_id: user.id,
+        user_permission: user.discount_code,
+        expires_at: dayjs().add(60,'minutes').unix()
+    }
+
+    return jwt.sign(payload, process.env.JWT_SECRET);
+}
+
 module.exports = {
+    generateTokenInfluencer,
     generateToken
 }

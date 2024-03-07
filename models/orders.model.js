@@ -28,12 +28,13 @@ const createOrderModel = (data) => {
 	        carrier,
 	        service_code,
 	        payment_id,
-	        payment_date) VALUES 
-            (?,?,?,?,?,?,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())`,
+	        payment_date,
+            promotional_code) VALUES 
+            (?,?,?,?,?,?,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)`,
             [data.site_name, data.site_order_id, data.order_id, data.buyer, data.phone, data.sku, data.order_total, data.proportional, 
             data.quantity, data.price, data.title, data.shipping_status, data.street_1, data.shipping_city, data.shipping_postal_code, 
             data.shipping_state_province, data.shipping_country, data.tracking_number, data.carrier, data.service_code, 
-            data.payment_id]);
+            data.payment_id, data.promotional_code]);
 }
 
 const getOrderModel = (id) => {
@@ -49,6 +50,11 @@ const getBySiteOrderIdModel = (site_order_id) => {
 const getByOrderIdModel = (orderId) => {
     return db.query("SELECT * FROM orders WHERE order_id = ?", 
     [orderId]);
+}
+
+const getByPromotionalCodeModel = (code) => {
+    return db.query("SELECT * FROM orders WHERE promotional_code = ?", 
+    [code]);
 }
 
 const updateOrderModel = (data, id) => {
@@ -69,5 +75,7 @@ module.exports = {
     updateOrderModel,
     getBySiteOrderIdModel,
     getByOrderIdModel,
-    getAllOrderIDModel
+    getAllOrderIDModel,
+
+    getByPromotionalCodeModel
 }

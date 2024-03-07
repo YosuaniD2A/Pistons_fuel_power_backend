@@ -62,6 +62,12 @@ const deleteInfluencerModel = (id) => {
     return db.query('DELETE FROM influencers WHERE id = ?', [id])
 };
 
+//---------------------------------------------------------------------------------------
+
+const getCodeDescountModel = (discount_code) => {
+    return db.query('SELECT discount_percent FROM influencers WHERE discount_code = ?', [discount_code]);
+};
+
 module.exports = {
     registrarInfluencer,
     getInfluencerByEmail,
@@ -72,5 +78,7 @@ module.exports = {
     deleteInfluencerModel,
     updateInfluencerModel,
     changeInfluencerStatusModel,
-    changeInfluencerNotifyModel
+    changeInfluencerNotifyModel,
+
+    getCodeDescountModel
 }
