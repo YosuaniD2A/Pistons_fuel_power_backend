@@ -28,6 +28,7 @@ const createSession = async (req, res) => {
             line_items: productsList,
             mode: 'payment',
             payment_method_types: ["card"],
+            allow_promotion_codes: true,
             phone_number_collection: {
                 enabled: true,
               },
