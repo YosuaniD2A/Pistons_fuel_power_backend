@@ -62,7 +62,9 @@ const createSession = async (req, res) => {
 
 const retrieveSession = async (req, res) => {
     try {
-        const retrieve = await stripe.checkout.sessions.retrieve(req.params.id);
+        const retrieve = await stripe.checkout.sessions.retrieve(req.params.id, {
+            expand: ['total_details.breakdown'],
+          });
 
         return res.json(retrieve);
 
