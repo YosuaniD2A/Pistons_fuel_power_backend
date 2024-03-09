@@ -66,7 +66,14 @@ const retrieveSession = async (req, res) => {
             expand: ['total_details.breakdown'],
           });
 
-        return res.json(retrieve);
+          const promotionCode = await stripe.promotionCodes.retrieve(
+            retrieve.total_details.breakdown.discounts[0].discount.promotion_code
+          );
+
+        return res.json({
+            retrieve,
+            promotionCode: promotionCode.code
+        });
 
     } catch (error) {
         res.status(500).json({
