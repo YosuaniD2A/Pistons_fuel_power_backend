@@ -6,14 +6,14 @@ const { generateTokenInfluencer } = require('../util/tokenGenerator');
 const { getByPromotionalCodeModel } = require('../models/orders.model');
 
 const login = async (req, res) => {
-    const { data, password } = req.body
+    const { emailOrCode, password } = req.body
     try {
       // verificar si el email existe
-      let [influencer] = await getInfluencerByEmail(data)
+      let [influencer] = await getInfluencerByEmail(emailOrCode)
   
       if (!influencer[0]) {
         // 2da verificacion, ahora por el code
-        [influencer] = await getInfluencerByCode(data);
+        [influencer] = await getInfluencerByCode(emailOrCode);
 
         if (!influencer[0]) {
             return res.status(404).json({
