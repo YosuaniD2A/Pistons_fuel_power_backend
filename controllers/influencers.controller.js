@@ -3,7 +3,10 @@ const { getAllInfluencersModel, registrarInfluencer, getInfluencerById, getInflu
 const { isValidId, isValidCode, isValidEmail } = require('../validations/validations');
 const { generatorCode } = require('../util/codeGenerator');
 const { generateTokenInfluencer } = require('../util/tokenGenerator');
-const { getByPromotionalCodeModel } = require('../models/orders.model');
+const { getByPromotionalCodeByMonthsModel } = require('../models/orders.model');
+const Stripe = require('stripe')
+
+const stripe = new Stripe(process.env.STRIPE_SK)
 
 const login = async (req, res) => {
     const { emailOrCode, password } = req.body
@@ -113,20 +116,6 @@ const getInfluencer = async (req, res) => {
     }
 }
 
-const getAllCodes = async (req, res) => {
-    try {
-        const [data] = await getAllCodesModel();
-
-        res.send({
-            data
-        })
-
-    } catch (error) {
-        res.status(500).json({
-            msg: error.message
-        });
-    }
-}
 
 const updateInfluencer = async (req, res) => {
     try {
@@ -194,9 +183,42 @@ const deleteInfluencer = async (req, res) => {
 
 //------------------------------------------------------------------------------------------------------------------------
 
+const getAllDiscountCoupons = async (req, res) => {
+    try {
+        const coupons = await stripe.coupons.list({ limit:20})
+
+        res.send({
+            coupons: coupons.data
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            msg: error.message
+        });
+    }
+}
+
+const getAllPromotionalCodes = async (req, res) => {
+    try {
+        const promotionalCodes = await stripe.promotionCodes.list({
+            limit: 30
+          });
+          
+
+        res.send({
+            promotionalCodes: promotionalCodes.data
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            msg: error.message
+        });
+    }
+}
+
 const getAllOrdersWithMyCode = async (req, res) => {
     try {
-        const [orders] = await getByPromotionalCodeModel(req.params.code);
+        const [orders] = await getByPromotionalCodeByMonthsModel(req.params.code);
 
         res.send({
             orders
@@ -230,7 +252,8 @@ module.exports = {
     register,
     getAllInfluencers,
     getInfluencer,
-    getAllCodes,
+    getAllDiscountCoupons,
+    getAllPromotionalCodes,
     updateInfluencer,
     changeInfluencerStatus,
     changeInfluencerNotify,

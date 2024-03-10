@@ -1,5 +1,5 @@
 const express = require("express");
-const { register, getAllInfluencers, getInfluencer, updateInfluencer, deleteInfluencer, updateInfluencerStatus, getAllCodes, changeInfluencerStatus, changeInfluencerNotify } = require("../../controllers/influencers.controller");
+const { register, getAllInfluencers, getInfluencer, updateInfluencer, deleteInfluencer, updateInfluencerStatus, getAllCodes, changeInfluencerStatus, changeInfluencerNotify, getAllPromotionalCodes, getAllDiscountCoupons } = require("../../controllers/influencers.controller");
 
 const router = express.Router();
 
@@ -20,7 +20,9 @@ router.get("/changeInfluencerStatus/:id", changeInfluencerStatus)
 
 router.get("/changeInfluencerNotify/:id", changeInfluencerNotify)
 
-router.get("/getAllCodes", getAllCodes)
+router.get("/getAllPromotionalCodes", getAllPromotionalCodes)
+
+router.get("/getAllDiscountCoupons", getAllDiscountCoupons)
 
 
 module.exports = router;
