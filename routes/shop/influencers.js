@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/login", login);
 
-router.get("/getCodeDescount/:code", getCodeDescount)
+router.get("/getCodeDescount/:code", getCodeDescount) //Actualmente en desuso
 
 router.get("/getAllOrdersWithMyCode/:code", getAllOrdersWithMyCode)
 

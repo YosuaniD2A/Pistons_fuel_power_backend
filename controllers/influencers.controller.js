@@ -216,6 +216,21 @@ const getAllPromotionalCodes = async (req, res) => {
     }
 }
 
+const getAllUsedCodes = async (req, res) => {
+    try {
+         const [usedCodes] = await getAllCodesModel();
+
+        res.send({
+            usedCodes
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            msg: error.message
+        });
+    }
+}
+
 const getAllOrdersWithMyCode = async (req, res) => {
     try {
         const [orders] = await getByPromotionalCodeByMonthsModel(req.params.code);
@@ -231,6 +246,7 @@ const getAllOrdersWithMyCode = async (req, res) => {
     }
 }
 
+//revisar si se esta usando este bloque
 const getCodeDescount = async (req, res) => {
     try {
         const [discount] = await getCodeDescountModel(req.params.code);
@@ -254,6 +270,7 @@ module.exports = {
     getInfluencer,
     getAllDiscountCoupons,
     getAllPromotionalCodes,
+    getAllUsedCodes,
     updateInfluencer,
     changeInfluencerStatus,
     changeInfluencerNotify,
