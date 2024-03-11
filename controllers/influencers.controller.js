@@ -204,10 +204,27 @@ const changeInfluencerNotify = async (req, res) => {
 
 const deleteInfluencer = async (req, res) => {
     try {
+        const resp_codes = await stripe.promotionCodes.list({ limit: 50 });
+        const promotionalCodes = resp_codes.data.map(code => {
+            return {
+                id: code.id,
+                code: code.code
+            }
+        })
+
+        const [influencer] = await getInfluencerById(req.params.id);
+        const { discount_code } = influencer[0];
+
+        const codeId = promotionalCodes.filter(code => {
+            return code.code === discount_code;
+        })
+
+        const promotionCode = await stripe.promotionCodes.update(codeId[0].id, { active: false });
         const [data] = await deleteInfluencerModel(req.params.id);
 
         res.send({
-            data
+            data,
+            promotionCode
         })
 
     } catch (error) {
