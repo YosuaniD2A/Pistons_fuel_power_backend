@@ -54,7 +54,7 @@ const register = async (req, res) => {
         req.body.discount_code = await generatorCode();
 
         const resp_createPromoCode = await stripe.promotionCodes.create({
-            code: discount_code,
+            code: req.body.discount_code,
             coupon: req.body.discount_percent
         });
 
