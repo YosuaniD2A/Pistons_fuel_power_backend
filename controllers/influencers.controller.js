@@ -3,7 +3,7 @@ const { getAllInfluencersModel, registrarInfluencer, getInfluencerById, getInflu
 const { isValidId, isValidCode, isValidEmail } = require('../validations/validations');
 const { generatorCode } = require('../util/codeGenerator');
 const { generateTokenInfluencer } = require('../util/tokenGenerator');
-const { getByPromotionalCodeByMonthsModel } = require('../models/orders.model');
+const { getByPromotionalCodeByMonthsModel, getOrdersXMonthAgoModel } = require('../models/orders.model');
 const Stripe = require('stripe')
 
 const stripe = new Stripe(process.env.STRIPE_SK)
@@ -301,6 +301,21 @@ const getAllOrdersWithMyCode = async (req, res) => {
     }
 }
 
+const getOrdersXMonthAgo = async (req, res) => {
+    try {
+        const [orders] = await getOrdersXMonthAgoModel(req.params.monthsAgo);
+
+        res.send({
+            orders
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            msg: error.message
+        });
+    }
+}
+
 //revisar si se esta usando este bloque
 const getCodeDescount = async (req, res) => {
     try {
@@ -332,5 +347,6 @@ module.exports = {
     deleteInfluencer,
 
     getAllOrdersWithMyCode,
+    getOrdersXMonthAgo,
     getCodeDescount
 }

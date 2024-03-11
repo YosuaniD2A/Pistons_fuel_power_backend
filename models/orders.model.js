@@ -77,6 +77,20 @@ const getByPromotionalCodeByMonthsModel = (code) => {
         months.month;`,
         [code]);
 }
+ const getOrdersXMonthAgoModel = (monthsAgo) => {
+    return db.query(
+        `SELECT 
+            MONTH(order_date) AS month,
+            COUNT(*) AS order_count
+        FROM
+            orders
+        WHERE
+            shipping_status != 'cancelled'
+            AND DATE_FORMAT(order_date, '%Y-%m') = DATE_FORMAT(DATE_SUB(NOW(), INTERVAL ? MONTH), '%Y-%m')
+        GROUP BY 
+            MONTH(order_date);`, 
+        [monthsAgo]);
+ }
 
 const updateOrderModel = (data, id) => {
     const fieldsToUpdate = Object.keys(data).map(key => `${key} = ?`).join(', ');
@@ -99,5 +113,6 @@ module.exports = {
     getAllOrderIDModel,
 
     getByPromotionalCodeModel,
-    getByPromotionalCodeByMonthsModel
+    getByPromotionalCodeByMonthsModel,
+    getOrdersXMonthAgoModel
 }

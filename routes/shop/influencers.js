@@ -1,5 +1,5 @@
 const express = require("express");
-const { login, getAllOrdersWithMyCode, getCodeDescount, getInfluencer, updateInfluencer } = require("../../controllers/influencers.controller");
+const { login, getAllOrdersWithMyCode, getCodeDescount, getInfluencer, updateInfluencer, getOrdersXMonthAgo } = require("../../controllers/influencers.controller");
 
 
 const router = express.Router();
@@ -13,6 +13,9 @@ router.get("/getInfluencer/:value", getInfluencer)
 router.put("/updateInfluencer/:id", updateInfluencer)
 
 router.get("/getAllOrdersWithMyCode/:code", getAllOrdersWithMyCode)
+
+router.get("/getOrdersXMonthAgo/:monthsAgo", getOrdersXMonthAgo)
+
 
 
 
