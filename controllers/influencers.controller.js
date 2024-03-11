@@ -51,7 +51,15 @@ const register = async (req, res) => {
     try {
         // Encripta el password que manda el usuario 
         req.body.password = bcryptjs.hashSync(req.body.password, 10);
-        // req.body.discount_code = await generatorCode();
+        req.body.discount_code = await generatorCode();
+
+        const resp_createPromoCode = await stripe.promotionCodes.create({
+            code: discount_code,
+            coupon: req.body.discount_percent
+        });
+
+        req.body.discount_percent = resp_createPromoCode.coupon.percent_off;
+        
 
         // Registra sus datos en la BD y luego se obtienen el usuario a partir del id que se le asigna
         const [data] = await registrarInfluencer(req.body);
@@ -155,12 +163,12 @@ const changeInfluencerStatus = async (req, res) => {
 
         let promotionCode;
         let message;
-        
+
         if (status === 0) {
-            promotionCode = await stripe.promotionCodes.update( codeId[0].id, { active: false });
+            promotionCode = await stripe.promotionCodes.update(codeId[0].id, { active: false });
             message = 'Promotion code inactived';
         } else {
-            promotionCode = await stripe.promotionCodes.update( codeId[0].id, { active: true });
+            promotionCode = await stripe.promotionCodes.update(codeId[0].id, { active: true });
             message = 'Promotion code actived';
         }
 
