@@ -8,7 +8,7 @@ router.post("/login", login);
 
 router.get("/getCodeDescount/:code", getCodeDescount) //Actualmente en desuso
 
-router.get("/getInfluencer/:value", getInfluencer )
+router.get("/getInfluencer/:value", getInfluencer)
 
 router.put("/updateInfluencer/:id", updateInfluencer)
 
