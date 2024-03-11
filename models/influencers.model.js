@@ -22,6 +22,9 @@ const getAllCodesModel = () => {
     return db.query("SELECT discount_code FROM influencers");
 }
 
+const getInfluencerStatus = (id) => {
+    return db.query('SELECT status FROM influencers WHERE id = ?', [id]);
+};
 
 const registrarInfluencer = ({ fullname, email, password, fb_account, tt_account, x_account, in_account, yt_account, discount_code, discount_percent }) => {
     return db.query(
@@ -68,11 +71,15 @@ const getCodeDescountModel = (discount_code) => {
     return db.query('SELECT discount_percent FROM influencers WHERE discount_code = ?', [discount_code]);
 };
 
+
+
+
 module.exports = {
     registrarInfluencer,
     getInfluencerByEmail,
     getInfluencerById,
     getInfluencerByCode,
+    getInfluencerStatus,
     getAllInfluencersModel,
     getAllCodesModel,
     deleteInfluencerModel,
