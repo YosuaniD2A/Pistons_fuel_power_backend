@@ -113,6 +113,8 @@ const getInfluencer = async (req, res) => {
             return res.status(404).json({ msg: 'Influencer not found' });
         }
 
+        delete data.password;
+
         res.send({
             data
         })
