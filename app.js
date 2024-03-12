@@ -4,6 +4,9 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const cron = require('node-cron');
+const { getAllInfluencersModel, updateInfluencerModel } = require('./models/influencers.model');
+const { getOrdersXMonthAgoModel } = require('./models/orders.model');
 
 require('dotenv').config();
 const app = express();
@@ -47,15 +50,37 @@ app.use('/api/shop/payment', require('./routes/shop/payment'));
 app.use('/api/shop/orders', require('./routes/shop/orders'));
 app.use('/api/shop/influencers', require('./routes/shop/influencers'));
 
+//Scheduled Task (Update balance) ----------------------------------------------------------
+cron.schedule('0 0 1 * *', async () => {
+  const [influencers] = await getAllInfluencersModel();
+  
+  for (const influencer of influencers) {
+    const discountCode = influencer.discount_code;
+
+    const response = await getOrdersXMonthAgoModel(2, discountCode);
+    const orders = response[0];
+
+    const totalSales = (orders[0].order_count * 24.99) * 0.5;
+
+    // const totalSales = orders.reduce((acc, order) => {
+    //   return acc + (order.order_count * 24.99 * 0.5); // Cálculo del total de ventas
+    // }, 0);
+
+    const result = await updateInfluencerModel({ balance: influencer.balance + totalSales }, influencer.id);
+  }
+}, {
+  timezone: 'America/New_York'
+});
+
 
 // Errors handlers ------------------------------------------------------------------------
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

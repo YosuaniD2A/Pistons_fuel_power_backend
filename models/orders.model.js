@@ -77,7 +77,7 @@ const getByPromotionalCodeByMonthsModel = (code) => {
         months.month;`,
         [code]);
 }
- const getOrdersXMonthAgoModel = (monthsAgo) => {
+ const getOrdersXMonthAgoModel = (monthsAgo, code) => {
     return db.query(
         `SELECT 
             MONTH(order_date) AS month,
@@ -87,9 +87,10 @@ const getByPromotionalCodeByMonthsModel = (code) => {
         WHERE
             shipping_status != 'cancelled'
             AND DATE_FORMAT(order_date, '%Y-%m') = DATE_FORMAT(DATE_SUB(NOW(), INTERVAL ? MONTH), '%Y-%m')
+            AND promotional_code = ?
         GROUP BY 
             MONTH(order_date);`, 
-        [monthsAgo]);
+        [monthsAgo, code]);
  }
 
 const updateOrderModel = (data, id) => {

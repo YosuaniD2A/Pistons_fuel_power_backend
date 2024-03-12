@@ -14,7 +14,7 @@ router.put("/updateInfluencer/:id", updateInfluencer)
 
 router.get("/getAllOrdersWithMyCode/:code", getAllOrdersWithMyCode)
 
-router.get("/getOrdersXMonthAgo/:monthsAgo", getOrdersXMonthAgo)
+router.get("/getOrdersXMonthAgo/:monthsAgo/:code", getOrdersXMonthAgo)
 
 
 

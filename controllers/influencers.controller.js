@@ -303,7 +303,7 @@ const getAllOrdersWithMyCode = async (req, res) => {
 
 const getOrdersXMonthAgo = async (req, res) => {
     try {
-        const [orders] = await getOrdersXMonthAgoModel(req.params.monthsAgo);
+        const [orders] = await getOrdersXMonthAgoModel(req.params.monthsAgo, req.params.code);
 
         res.send({
             orders
