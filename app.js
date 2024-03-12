@@ -42,6 +42,7 @@ app.use('/api/dashboard/images', require('./routes/dashboard/images'));
 app.use('/api/dashboard/discounts', require('./routes/dashboard/discounts'));
 app.use('/api/dashboard/gallery', require('./routes/dashboard/gallery'));
 app.use('/api/dashboard/influencers', require('./routes/dashboard/influencers'));
+app.use('/api/dashboard/requests', require('./routes/dashboard/requests'));
 // Shop
 app.use('/api/shop/products', require('./routes/shop/products'));
 app.use('/api/shop/collections', require('./routes/shop/collections'));
@@ -49,6 +50,7 @@ app.use('/api/shop/gallery', require('./routes/shop/gallery'));
 app.use('/api/shop/payment', require('./routes/shop/payment'));
 app.use('/api/shop/orders', require('./routes/shop/orders'));
 app.use('/api/shop/influencers', require('./routes/shop/influencers'));
+app.use('/api/shop/requests', require('./routes/shop/requests'));
 
 //Scheduled Task (Update balance) ----------------------------------------------------------
 cron.schedule('0 0 1 * *', async () => {
@@ -61,7 +63,7 @@ cron.schedule('0 0 1 * *', async () => {
 
     const discountCode = influencer.discount_code;
 
-    const response = await getOrdersXMonthAgoModel(2, discountCode);
+    const response = await getOrdersXMonthAgoModel(1, discountCode);
     const orders = response[0];
 
     const totalSales = (orders[0].order_count * 24.99) * 0.5;
