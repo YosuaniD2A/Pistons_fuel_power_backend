@@ -55,6 +55,10 @@ cron.schedule('0 0 1 * *', async () => {
   const [influencers] = await getAllInfluencersModel();
   
   for (const influencer of influencers) {
+    if (influencer.status !== 0) {
+      continue; 
+    }
+
     const discountCode = influencer.discount_code;
 
     const response = await getOrdersXMonthAgoModel(2, discountCode);
