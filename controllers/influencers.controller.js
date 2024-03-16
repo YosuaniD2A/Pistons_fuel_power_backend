@@ -1,10 +1,12 @@
 const bcryptjs = require('bcryptjs')
 const { getAllInfluencersModel, registrarInfluencer, getInfluencerById, getInfluencerByEmail, getInfluencerByCode, updateInfluencerModel, changeInfluencerStatusModel, getAllCodesModel, deleteInfluencerModel, changeInfluencerNotifyModel, getCodeDescountModel } = require('../models/influencers.model');
 const { isValidId, isValidCode, isValidEmail } = require('../validations/validations');
-const { generatorCode } = require('../util/codeGenerator');
+const { codeGenerator, passGenerator } = require('../util/generator');
 const { generateTokenInfluencer } = require('../util/tokenGenerator');
 const { getByPromotionalCodeByMonthsModel, getOrdersXMonthAgoModel } = require('../models/orders.model');
-const Stripe = require('stripe')
+const Stripe = require('stripe');
+const { transporter } = require("../util/mailer");
+const { pfp_template } = require("../util/templates");
 
 const stripe = new Stripe(process.env.STRIPE_SK)
 
@@ -49,9 +51,15 @@ const login = async (req, res) => {
 
 const register = async (req, res) => {
     try {
+        let password;
+        if(req.body.password == ""){
+            password = passGenerator();
+        }else{
+            password = req.body.password
+        }
         // Encripta el password que manda el usuario 
-        req.body.password = bcryptjs.hashSync(req.body.password, 10);
-        req.body.discount_code = await generatorCode();
+        req.body.password = bcryptjs.hashSync(password, 10);
+        req.body.discount_code = await codeGenerator();
 
         const resp_createPromoCode = await stripe.promotionCodes.create({
             code: req.body.discount_code,
@@ -64,13 +72,22 @@ const register = async (req, res) => {
         // Registra sus datos en la BD y luego se obtienen el usuario a partir del id que se le asigna
         const [data] = await registrarInfluencer(req.body);
         const [influencer] = await getInfluencerById(data.insertId);
-
         delete influencer[0].password;
+
+        // Enviar correo al influencer
+        const info = await transporter.sendMail({
+            from: '"Pistons Fuel Power Support" <support@pistonsfuelpower.com>', // sender address
+            to: req.body.email, // list of receivers
+            subject: "Account authorization and promotional code assignment", // Subject line
+            text: "Thank you very much for being part of this project", // plain text body
+            html: pfp_template(req.body.fullname, req.body.discount_code, password), // html body
+        });
 
         // Muestra un mensaje SUCCESSFUL
         res.status(200).send({
             msg: 'Su registro ha sido satisfactorio',
-            influencer: influencer[0]
+            influencer: influencer[0],
+            send: info.messageId
         })
     } catch (error) {
         res.status(500).json({

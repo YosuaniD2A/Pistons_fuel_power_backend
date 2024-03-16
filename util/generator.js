@@ -1,6 +1,6 @@
 const { getAllCodesModel } = require("../models/influencers.model");
 
-const generatorCode = async () => {
+const codeGenerator = async () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     const codeLength = 6;
     let code = '';
@@ -23,6 +23,20 @@ const generatorCode = async () => {
     }
 };
 
+const passGenerator = () => {
+    const characters ='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123459!@#$%^&*()_+~`|}{[]\:;?><,./-='
+    const codeLength = 10;
+    let password = '';
+    
+    for (let i = 0; i < codeLength; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      password += characters[randomIndex];
+    }
+    
+    return password;
+};
+
 module.exports = {
-    generatorCode
+    codeGenerator,
+    passGenerator
 }
