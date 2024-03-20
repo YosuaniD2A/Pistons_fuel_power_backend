@@ -1,4 +1,4 @@
-const { createRequestModel, getAllRequestsModel, getRequestsByInfluencerIdModel, updateRequestByIdModel } = require("../models/requests.model");
+const { createRequestModel, getAllRequestsModel, getRequestsByInfluencerIdModel, updateRequestByIdModel, getAllRequestsRequestedModel } = require("../models/requests.model");
 
 const createRequest = async (req, res) => {
     try {
@@ -18,6 +18,21 @@ const createRequest = async (req, res) => {
 const getAllRequests = async (req, res) => {
     try {
         const [data] = await getAllRequestsModel();
+
+        res.send({
+           data
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            msg: error.message
+        });
+    }
+}
+
+const getAllRequestsRequested = async (req, res) => {
+    try {
+        const [data] = await getAllRequestsRequestedModel();
 
         res.send({
            data
@@ -64,5 +79,6 @@ module.exports = {
     createRequest,
     getAllRequests,
     getRequestsByInfluencerId,
-    updateRequestById
+    updateRequestById,
+    getAllRequestsRequested
 }

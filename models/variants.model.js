@@ -1,4 +1,4 @@
-const db = require('../db/db.config').promise();
+const db = require('../configs/db.config').promise();
 
 /*----------------------------- SQL Queries ---------------------------------------------- */
 

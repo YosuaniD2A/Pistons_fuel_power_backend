@@ -1,4 +1,4 @@
-const db = require('../db/db.config').promise();
+const db = require('../configs/db.config').promise();
 
 /*----------------------------- SQL Queries ---------------------------------------------- */
 
@@ -38,6 +38,15 @@ const deleteLinkImageModel = (id) => {
     [id]);
 }
 
+const getImageWithoutURl2Model = () => {
+    return db.query("SELECT * FROM images WHERE img_url2 = '' OR img_url2 IS NULL");
+}
+
+const updateImageWithURL2Model = (id, {img_url2}) => {
+    return db.query("UPDATE images SET img_url2 = ? WHERE id = ?", 
+    [img_url2, id]);
+}
+
 module.exports = {
     insertImageModel,
     updateImageModel,
@@ -46,5 +55,7 @@ module.exports = {
     getAllImageModel,
 
     insertLinkImageModel,
-    deleteLinkImageModel
+    deleteLinkImageModel,
+    getImageWithoutURl2Model,
+    updateImageWithURL2Model
 }

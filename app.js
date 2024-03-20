@@ -44,6 +44,7 @@ app.use('/api/dashboard/gallery', require('./routes/dashboard/gallery'));
 app.use('/api/dashboard/influencers', require('./routes/dashboard/influencers'));
 app.use('/api/dashboard/requests', require('./routes/dashboard/requests'));
 app.use('/api/dashboard/sendMailer', require('./routes/dashboard/sendMailer'));
+app.use('/api/dashboard/uploadAWS', require('./routes/dashboard/uploadAWS'));
 // Shop
 app.use('/api/shop/products', require('./routes/shop/products'));
 app.use('/api/shop/collections', require('./routes/shop/collections'));

@@ -1,4 +1,4 @@
-const db = require('../db/db.config').promise();
+const db = require('../configs/db.config').promise();
 
 /*----------------------------- SQL Queries ---------------------------------------------- */
 
@@ -9,6 +9,10 @@ const createRequestModel = (data) => {
 
 const getAllRequestsModel = () => {
     return db.query(`SELECT * FROM payment_requests`);
+}
+
+const getAllRequestsRequestedModel = () => {
+    return db.query(`SELECT COUNT(*) as count FROM payment_requests WHERE requestStatus = 'Requested'`);
 }
 
 const getRequestsByInfluencerIdModel = (id) => {
@@ -25,6 +29,7 @@ const updateRequestByIdModel = (id, data) => {
 module.exports = {
     createRequestModel,
     getAllRequestsModel,
+    getAllRequestsRequestedModel,
     getRequestsByInfluencerIdModel,
     updateRequestByIdModel
 }
