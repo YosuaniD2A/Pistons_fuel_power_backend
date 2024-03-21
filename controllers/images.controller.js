@@ -30,6 +30,7 @@ const addImage = async (req, res) => {
                 Buffer.from(imageBuffer),
                 name,
                 process.env.BUCKET_PRODUCTS,
+                "image/png",
                 s3
             );
 

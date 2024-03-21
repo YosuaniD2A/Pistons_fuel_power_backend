@@ -26,11 +26,21 @@ const getAllImageGalleryModel = () => {
     return db.query("SELECT * FROM gallery");
 }
 
+const getImageGalleryWithoutURl2Model = () => {
+    return db.query("SELECT * FROM gallery WHERE img_url2 = '' OR img_url2 IS NULL");
+}
+
+const updateImageGalleryWithURL2Model = (id, {img_url2}) => {
+    return db.query("UPDATE gallery SET img_url2 = ? WHERE id = ?", 
+    [img_url2, id]);
+}
 
 module.exports = {
     insertImageGalleryModel,
     updateImageGalleryModel,
     deleteImageGalleryModel,
     getImageGalleryModel,
-    getAllImageGalleryModel
+    getAllImageGalleryModel,
+    getImageGalleryWithoutURl2Model,
+    updateImageGalleryWithURL2Model
 }
