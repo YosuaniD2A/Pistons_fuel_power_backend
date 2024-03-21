@@ -5,7 +5,7 @@ const uploadOneImage = async (imgBuffer, productName, bucket, s3) => {
         Bucket: bucket,
         Key: `${Date.now().toString()}-${productName}`,
         Body: imgBuffer,
-        ContentType: "image/jpg", // Cambia esto según el tipo de imagen
+        ContentType: "image/png", // Cambia esto según el tipo de imagen
     };
 
     const parallelUploads3 = new Upload({ client: s3, params: paramsImg }); 
