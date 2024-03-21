@@ -39,7 +39,7 @@ const getAllProductbyVariantsModel = () => {
         p.price,
         p.type,
 	    v.size, v.color, v.sku,
-        GROUP_CONCAT(DISTINCT i.img_url) AS imagesUrl
+        GROUP_CONCAT(DISTINCT i.img_url2) AS imagesUrl
     FROM variants v
     JOIN products p ON v.products_id = p.id
     JOIN collections c ON p.collections_id = c.id
